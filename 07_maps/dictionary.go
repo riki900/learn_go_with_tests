@@ -3,7 +3,7 @@ package main
 const (
 	ErrNotFound          = DictionaryErr("cannot find word in dictionary")
 	ErrWordExists        = DictionaryErr("cannod add existing word")
-	ErrWordDoesNotExists = DictionaryErr("cannod update word not in dictionary")
+	ErrWordDoesNotExists = DictionaryErr("operation failed: word not in dictionary")
 )
 
 type DictionaryErr string
@@ -55,4 +55,10 @@ func (d Dictionary) Update(word, definition string) error {
 	}
 
 	return nil
+}
+
+func (d Dictionary) Delete(word string) {
+
+	delete(d, word)
+
 }
