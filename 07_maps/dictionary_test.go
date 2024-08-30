@@ -25,6 +25,47 @@ func TestSearch(t *testing.T) {
 
 }
 
+func TestAdd(t *testing.T) {
+
+	t.Run("new word", func(t *testing.T) {
+
+		dictionary := Dictionary{}
+		word := ""
+		definition := ""
+
+		err := dictionary.Add(word, definition)
+
+		AssertErrors(t, err, nil)
+		AssertDefintion(t, dictionary, word, definition)
+
+	})
+
+	t.Run("existing word", func(t *testing.T) {
+
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{word: definition}
+
+		err := dictionary.Add(word, definition)
+
+		AssertErrors(t, err, ErrWordExists)
+
+	})
+
+}
+
+func AssertDefintion(t *testing.T, dictionary Dictionary, word, definition string) {
+	t.Helper()
+
+	got, err := dictionary.Search(word)
+	if err != nil {
+		t.Fatal("error during lookup", err)
+	}
+
+	AssertStrings(t, got, definition)
+
+}
+
 func AssertStrings(t testing.TB, got, want string) {
 	t.Helper()
 	if got != want {
